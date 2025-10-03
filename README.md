@@ -1,6 +1,12 @@
+![RabbitMQ & Kafka Node.js Demo](./screenshots/rabbitmq-kafka-node.png)
+
+[![GitHub stars](https://img.shields.io/github/stars/jmrashed/rabbitmq-kafka-node-demo?style=social)](https://github.com/jmrashed/rabbitmq-kafka-node-demo/stargazers)
+[![CI](https://github.com/jmrashed/rabbitmq-kafka-node-demo/actions/workflows/nodejs.yml/badge.svg)](https://github.com/jmrashed/rabbitmq-kafka-node-demo/actions)
+
 # RabbitMQ & Kafka Node.js Demo
 
 A comprehensive demonstration of message queuing with RabbitMQ and Apache Kafka using Node.js, featuring Docker containerization and REST API endpoints.
+
 
 ## 🚀 Features
 

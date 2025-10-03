@@ -1,82 +1,236 @@
-# Produce and Consume Messages with RabbitMQ using Node.js
+# RabbitMQ & Kafka Node.js Demo
 
-This guide demonstrates how to produce and consume messages with RabbitMQ using Node.js and the `amqplib` library.
+A comprehensive demonstration of message queuing with RabbitMQ and Apache Kafka using Node.js, featuring Docker containerization and REST API endpoints.
 
-## Prerequisites
+## 🚀 Features
 
-- Node.js installed on your system
-- RabbitMQ server running locally or accessible
+- **RabbitMQ Integration**: Producer and consumer services with queue management
+- **Apache Kafka Integration**: Topic-based messaging with consumer groups
+- **REST API**: HTTP endpoints for message production
+- **Docker Compose**: Full-stack containerized environment
+- **Health Checks**: Service health monitoring
+- **Example Scripts**: Ready-to-use demonstration scripts
+- **Load Testing**: Performance testing capabilities
 
-## Installation
+## 📋 Prerequisites
 
-1. Clone this repository:
+- Docker and Docker Compose
+- Node.js 18+ (for local development)
+- Git
 
-```sh
-   git clone https://github.com/jmrashed/produce-consume-rabbitmq-nodejs.git
+## 🛠️ Quick Start
+
+### Using Docker (Recommended)
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/jmrashed/rabbitmq-kafka-node-demo.git
+   cd rabbitmq-kafka-node-demo
+   ```
+
+2. **Start all services**:
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Check service health**:
+   ```bash
+   docker-compose ps
+   ```
+
+### Local Development
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Start infrastructure services**:
+   ```bash
+   docker-compose up -d rabbitmq kafka zookeeper
+   ```
+
+3. **Run the application**:
+   ```bash
+   npm run dev
+   ```
+
+## 🔧 Services & Ports
+
+| Service | Port | Management UI |
+|---------|------|---------------|
+| Node.js App | 3000 | - |
+| RabbitMQ | 5672 | http://localhost:15672 |
+| RabbitMQ Management | 15672 | guest/guest |
+| Kafka | 9092 | - |
+| Zookeeper | 2181 | - |
+
+## 📡 API Endpoints
+
+### Send Messages
+
+**POST** `/produce`
+
+#### RabbitMQ Message
+```bash
+curl -X POST http://localhost:3000/produce \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "rabbitmq",
+    "queue": "task_queue",
+    "message": "Hello RabbitMQ!"
+  }'
 ```
 
-2. Navigate to the project directory:
+#### Kafka Message
+```bash
+curl -X POST http://localhost:3000/produce \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "kafka",
+    "topic": "task_logs",
+    "message": "Hello Kafka!",
+    "key": "log-key-1"
+  }'
+```
+
+## 🎯 Example Scripts
+
+Run the provided example scripts to test the system:
 
 ```bash
-cd produce-consume-rabbitmq-nodejs
+# Send a RabbitMQ message
+node examples/send-rabbitmq.js
+
+# Send a Kafka message
+node examples/send-kafka.js
+
+# Run load test (default: 10 messages each)
+node examples/load-test.js
+
+# Run load test with custom count
+node examples/load-test.js 50
 ```
 
-3. Install dependencies using npm:
+## 🧪 Testing
 
+Run the test suite:
 ```bash
-npm install
+npm test
 ```
 
-# Usage
+## 📊 Monitoring
 
-## Produce Messages
+### RabbitMQ Management UI
+- URL: http://localhost:15672
+- Username: `guest`
+- Password: `guest`
 
-1. Open a terminal and navigate to the project directory.
-
-2. Run the producer script to send a message to the RabbitMQ queue:
-
+### Docker Logs
 ```bash
-node produce.js
+# View all logs
+npm run docker:logs
+
+# View specific service logs
+docker-compose logs -f app
+docker-compose logs -f rabbitmq
+docker-compose logs -f kafka
 ```
 
-3. The producer will send a message to the queue. You should see an output similar to:
+## 🏗️ Project Structure
 
+```
+├── config/                 # Configuration files
+│   ├── kafka.js           # Kafka configuration
+│   ├── logger.js          # Winston logger setup
+│   └── rabbitmq.js        # RabbitMQ configuration
+├── services/              # Core services
+│   ├── consumer/          # Consumer implementations
+│   ├── producer/          # Producer implementations
+│   ├── consumer-service.js
+│   └── producer-service.js
+├── examples/              # Example scripts
+│   ├── send-rabbitmq.js   # RabbitMQ example
+│   ├── send-kafka.js      # Kafka example
+│   └── load-test.js       # Load testing
+├── test/                  # Test files
+├── docker-compose.yml     # Docker services
+├── Dockerfile            # App container
+└── README.md
+```
+
+## 🔄 Development Workflow
+
+### Start Development Environment
 ```bash
-Message sent: Hello, RabbitMQ!Your random number is 0.6063381710564761
+npm run docker:up
+npm run dev
 ```
 
-
-
-## Consume Messages
-
-1. Open a terminal and navigate to the project directory.
-
-2. Run the producer script to send a message to the RabbitMQ queue:
-
+### Stop Services
 ```bash
-node consume.js
+npm run docker:down
 ```
 
-3. The producer will send a message to the queue. You should see an output similar to:
-
+### View Logs
 ```bash
-Received message: Hello, RabbitMQ!Your random number is 0.6063381710564761
+npm run docker:logs
 ```
 
+## 🚀 Production Deployment
 
-# Contributing
-Contributions are welcome! If you find a bug or want to add a new feature, please follow these steps:
+1. **Build production image**:
+   ```bash
+   docker build -t rabbitmq-kafka-app .
+   ```
 
-Fork the repository.
+2. **Deploy with production compose**:
+   ```bash
+   docker-compose -f docker-compose.yml up -d
+   ```
 
-Create a new branch: `git checkout -b feature/new-feature`.
+## 🤝 Contributing
 
-Make changes and commit: `git commit -am 'Add new feature'`.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit changes: `git commit -am 'Add new feature'`
+4. Push to branch: `git push origin feature/new-feature`
+5. Submit a pull request
 
-Push to the branch: `git push origin feature/new-feature`.
+## 📝 License
 
-Create a pull request.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🆘 Troubleshooting
 
-# License
-This project is licensed under the [MIT License](MIT.md) - see the LICENSE file for details.
+### Common Issues
+
+**Services not starting**: Check Docker daemon is running
+```bash
+docker --version
+docker-compose --version
+```
+
+**Port conflicts**: Ensure ports 3000, 5672, 9092, 15672, 2181 are available
+```bash
+netstat -an | findstr "3000\|5672\|9092\|15672\|2181"
+```
+
+**Connection refused**: Wait for services to be healthy
+```bash
+docker-compose ps
+```
+
+### Health Checks
+
+All services include health checks. Wait for all services to show "healthy" status before testing.
+
+## 📈 Performance Notes
+
+- RabbitMQ: Optimized for reliable message delivery
+- Kafka: Optimized for high-throughput streaming
+- Both support clustering for production scalability
+
+---
+
+**Made with ❤️ by [jmrashed](https://github.com/jmrashed)**

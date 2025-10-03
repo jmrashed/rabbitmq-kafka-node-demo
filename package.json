@@ -1,27 +1,40 @@
 {
-  "name": "jmrashed-amqplib",
+  "name": "rabbitmq-kafka-node-demo",
   "version": "1.0.0",
-  "description": "Produce and Consume Messages with RabbitMQ using nodejs",
+  "description": "Produce and Consume Messages with RabbitMQ and Kafka using Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node test/rabbitmqTest.js && node test/kafkaTest.js",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "release": "node scripts/prepare-release.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmrashed/produce-consume-rabbitmq-node.git"
+    "url": "git+https://github.com/jmrashed/rabbitmq-kafka-node-demo.git"
   },
   "keywords": [
     "rabbitmq",
     "nodejs",
     "messagebroker"
   ],
-  "author": "jmrashed@gmail.com",
-  "license": "ISC",
+  "author": "Md Rasheduzzaman <jmrashed@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jmrashed/produce-consume-rabbitmq-node/issues"
+    "url": "https://github.com/jmrashed/rabbitmq-kafka-node-demo/issues"
   },
-  "homepage": "https://github.com/jmrashed/produce-consume-rabbitmq-node#readme",
+  "homepage": "https://github.com/jmrashed/rabbitmq-kafka-node-demo#readme",
   "dependencies": {
-    "amqplib": "^0.10.3"
-  }
+    "amqplib": "^0.10.9",
+    "axios": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "kafkajs": "^2.2.4",
+    "nodemon": "^3.1.10",
+    "winston": "^3.18.3"
+  },
+  "type": "commonjs"
 }
